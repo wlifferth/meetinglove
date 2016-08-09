@@ -1,0 +1,26 @@
+header
+{
+    padding: 30px;
+    background-color: #95b0ff;
+    margin: 0;
+}
+
+.col-centered
+{
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*******************************************************************************
+TIME LISTING
+*******************************************************************************/
+.timeListing {
+    font-size: 2em;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+    padding: 2%;
+    margin: 2%;
+    background-color: lightblue;
+}

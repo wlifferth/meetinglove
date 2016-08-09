@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+    {{ meetingName }}
+</h2>
+<div class="form-group">
+    <div class="row">
+        <div class="col-md-8">
+            <div id="datetimepicker"></div>
+        </div>
+    </div>
+</div>
+<div>
+    <button class="btn" onclick="addMeetingTime()">Add Meeting Time!</button>
+</div>
+<div>
+    <ul id="meetingTimeList">
+    </ul>
+</div>
+<script type="text/javascript">
+    var meetingKey = "{{ meetingKey }}";
+    var adminKey = "{{ adminKey }}";
+    var arbMeetingTime;
+    var returnValue;
+    $(document).ready(function () {
+        $('#datetimepicker').datetimepicker({
+            inline: true,
+            sideBySide: true,
+            stepping: 5
+        });
+    });
+
+    // Fetch all the dates to instantiate the list
+    $.ajax({
+        dataType: "json",
+        url: $SCRIPT_ROOT + "/getMeetingTimes",
+        data: {
+            meetingKey: meetingKey
+        },
+        success: function(result) {
+            renderMeetingTimes(result.meetingTimes);
+        }
+    });
+    function addMeetingTime() {
+        var newMeetingTime = $('#datetimepicker').data('DateTimePicker').date().format('YYYY-MM-DD hh:mm:ss');
+        $.ajax({
+            dataType: "json",
+            url: $SCRIPT_ROOT + "/addMeetingTime",
+            data: {
+                meetingKey: meetingKey,
+                adminKey: adminKey,
+                meetingTime: newMeetingTime
+            },
+            success: function(result) {
+                renderMeetingTimes(result.meetingTimes);
+            }
+        });
+    }
+    function renderMeetingTimes(meetingTimes) {
+        $('#meetingTimeList').empty();
+        meetingTimes.forEach(function(meetingTime, index, array){
+            $('#meetingTimeList').append("<li class='timeListing' id='" + meetingTime[1] + "'>" + meetingTime[0] + "<i class='glyphicon glyphicon-remove' onclick='deleteMeetingTime(\"" + meetingTime[1] + "\")' ></i></li>")
+            arbMeetingTime = meetingTime[0];
+        });
+    }
+    function deleteMeetingTime(meetingTimeKey) {
+        $.ajax({
+            dataType: "json",
+            url: $SCRIPT_ROOT + "/deleteMeetingTime",
+            data: {
+                meetingKey: meetingKey,
+                adminKey: adminKey,
+                meetingTimeKey: meetingTimeKey
+            },
+            success: function(result) {
+                renderMeetingTimes(result.meetingTimes);
+            }
+        });
+    }
+</script>
+{% endblock %}
