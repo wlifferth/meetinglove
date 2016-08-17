@@ -20,9 +20,10 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/newMeeting/<string:meetingName>", methods=["POST"])
-def new(meetingName):
+@app.route("/newMeeting", methods=['POST'])
+def new():
     dbConnection = DBConnection()
+    meetingName = request.args.get('meetingName')
     meeting = dbConnection.addMeeting(meetingName=meetingName)
     return redirect("/meeting/{}/admin/{}".format(meeting.meetingKey, meeting.adminKey))
 
@@ -40,7 +41,9 @@ def meetingAdmin(meetingKey, adminKey):
     meeting = dbConnection.getMeeting(meetingKey)
     return render_template("adminDashboard.html", meetingName=meeting.name, meetingKey=meetingKey, adminKey=adminKey)
 
-@app.route("/addMeetingTime")
+# AJAX FUNCTIONS
+
+@app.route("/addMeetingTime", methods=['POST'])
 def addMeetingTime():
     # Collect the arguments from the request
     meetingKey = request.args.get('meetingKey')
@@ -58,7 +61,7 @@ def addMeetingTime():
     return jsonify(meetingTimes=meetingTimes)
 
 
-@app.route("/getMeetingTimes")
+@app.route("/getMeetingTimes", methods=['POST'])
 def getMeetingTimes():
     # Collect the arguments from the request
     meetingKey = request.args.get('meetingKey')
@@ -71,7 +74,7 @@ def getMeetingTimes():
     # Return the array as a jsonified object
     return jsonify(meetingTimes=meetingTimes)
 
-@app.route("/deleteMeetingTime")
+@app.route("/deleteMeetingTime", methods=['POST'])
 def deleteMeetingTime():
     # Collect the arguments from the request
     meetingKey = request.args.get('meetingKey')

@@ -20,7 +20,7 @@ function copy(sender)
             document.execComand('copy');
             inp.blur();
         }
-        catch
+        catch(err)
         {
             alrt('Please press Ctrl/Cmd + C to copy');
         }
