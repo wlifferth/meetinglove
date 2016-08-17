@@ -20,7 +20,40 @@ TIME LISTING
     text-align: center;
     color: white;
     border-radius: 20px;
-    padding: 2%;
+    padding: 20px;
     margin: 2%;
     background-color: lightblue;
+    position: relative;
+}
+
+.deleteButton {
+    position: absolute;
+    right: 20px;
+    margin-top: 2.5%;
+    margin-bottom: auto;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    color: red;
+}
+
+.deleteButton:active {
+    color: darkred;
+}
+
+#datetimepicker {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5%;
+    padding-right: 5%;
+    display: block;
+}
+
+.addMeetingTimeButton {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2em;
+    padding: 2%;
 }

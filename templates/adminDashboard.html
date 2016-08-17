@@ -5,18 +5,14 @@
 </h2>
 <div class="form-group">
     <div class="row">
-        <div class="col-md-8">
-            <div id="datetimepicker"></div>
-        </div>
+        <div id="datetimepicker" class="centered"></div>
     </div>
 </div>
 <div>
-    <button class="btn" onclick="addMeetingTime()">Add Meeting Time!</button>
+    <button class="btn addMeetingTimeButton" onclick="addMeetingTime()">Add Meeting Time!</button>
 </div>
-<div>
-    <ul id="meetingTimeList">
-    </ul>
-</div>
+<ul id="meetingTimeList">
+</ul>
 <script type="text/javascript">
     var meetingKey = "{{ meetingKey }}";
     var adminKey = "{{ adminKey }}";
@@ -59,11 +55,11 @@
     function renderMeetingTimes(meetingTimes) {
         $('#meetingTimeList').empty();
         meetingTimes.forEach(function(meetingTime, index, array){
-            $('#meetingTimeList').append("<li class='timeListing' id='" + meetingTime[1] + "'>" + meetingTime[0] + "<i class='glyphicon glyphicon-remove' onclick='deleteMeetingTime(\"" + meetingTime[1] + "\")' ></i></li>")
-            arbMeetingTime = meetingTime[0];
+            $('#meetingTimeList').append("<li class='timeListing' id='" + meetingTime[1] + "'>" + meetingTime[0] + "<i class='glyphicon glyphicon-remove deleteButton' onclick='deleteMeetingTime(\"" + meetingTime[1] + "\")' ></i></li>")
         });
     }
     function deleteMeetingTime(meetingTimeKey) {
+        $('#' + meetingTimeKey).remove();
         $.ajax({
             dataType: "json",
             url: $SCRIPT_ROOT + "/deleteMeetingTime",
