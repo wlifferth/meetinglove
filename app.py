@@ -28,7 +28,7 @@ def new():
     return redirect("/meeting/{}/admin/{}".format(meeting.meetingKey, meeting.adminKey))
 
 
-@app.route("/meeting/<string:meetinKey>")
+@app.route("/meeting/<string:meetingKey>")
 def meeting(meetingKey):
     pass
 

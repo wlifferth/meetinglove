@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<script src="/static/js/adminDashboardInteraction.js"></script>
 <h2>
     {{ meetingName }}
 </h2>
@@ -11,70 +12,16 @@
 <div>
     <button class="btn addMeetingTimeButton" onclick="addMeetingTime()">Add Meeting Time!</button>
 </div>
-<ul id="meetingTimeList">
+    <ul id="meetingTimeList">
 </ul>
-<script type="text/javascript">
-    var meetingKey = "{{ meetingKey }}";
-    var adminKey = "{{ adminKey }}";
-    var arbMeetingTime;
-    var returnValue;
-    $(document).ready(function () {
-        $('#datetimepicker').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            stepping: 5
-        });
-    });
-
-    // Fetch all the dates to instantiate the list
-    $.ajax({
-        dataType: "json",
-        type: 'POST',
-        url: $SCRIPT_ROOT + "/getMeetingTimes",
-        data: {
-            meetingKey: meetingKey
-        },
-        success: function(result) {
-            renderMeetingTimes(result.meetingTimes);
-        }
-    });
-    function addMeetingTime() {
-        var newMeetingTime = $('#datetimepicker').data('DateTimePicker').date().format('YYYY-MM-DD hh:mm:ss');
-        $.ajax({
-            dataType: "json",
-            type: 'POST',
-            url: $SCRIPT_ROOT + "/addMeetingTime",
-            data: {
-                meetingKey: meetingKey,
-                adminKey: adminKey,
-                meetingTime: newMeetingTime
-            },
-            success: function(result) {
-                renderMeetingTimes(result.meetingTimes);
-            }
-        });
-    }
-    function renderMeetingTimes(meetingTimes) {
-        $('#meetingTimeList').empty();
-        meetingTimes.forEach(function(meetingTime, index, array){
-            $('#meetingTimeList').append("<li class='timeListing' id='" + meetingTime[1] + "'>" + meetingTime[0] + "<i class='glyphicon glyphicon-remove deleteButton' onclick='deleteMeetingTime(\"" + meetingTime[1] + "\")' ></i></li>")
-        });
-    }
-    function deleteMeetingTime(meetingTimeKey) {
-        $('#' + meetingTimeKey).remove();
-        $.ajax({
-            dataType: "json",
-            type: 'POST',
-            url: $SCRIPT_ROOT + "/deleteMeetingTime",
-            data: {
-                meetingKey: meetingKey,
-                adminKey: adminKey,
-                meetingTimeKey: meetingTimeKey
-            },
-            success: function(result) {
-                renderMeetingTimes(result.meetingTimes);
-            }
-        });
-    }
-</script>
+<div>
+    <h2>
+        Meeting Link
+    </h2>
+    <input type="text" id="meetingLink" onclick="copy(this)" readonly value="{{ request.url_root }}meeting/{{ meetingKey }}"> click to copy!
+    <h2>
+        Admin Key (don't share this!)
+    </h2>
+    <input type="text" id="adminLink" onclick="copy(this)" readonly value="{{ request.url_root }}meeting/{{ meetingKey }}/admin/{{ adminKey }}"> click to copy!
+</div>
 {% endblock %}

@@ -57,3 +57,12 @@ TIME LISTING
     font-size: 2em;
     padding: 2%;
 }
+
+
+/*******************************************************************************
+ADMIN DASHBOARD
+*******************************************************************************/
+#meetingLink, #adminLink {
+    width: 40%;
+    border: 0px;
+    background: transparent;
